@@ -24,7 +24,6 @@ public class Transaction {
     @NotNull
     private Long amount;
     @Size(max = 50)
-    @NotNull
     private String category;
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")

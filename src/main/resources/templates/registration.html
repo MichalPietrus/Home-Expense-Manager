@@ -14,18 +14,14 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="/">Expense manager</a>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active" sec:authorize="isAuthenticated()">
-                <a class="nav-link" th:href="@{/logout}">Logout</a>
-            </li>
-        </ul>
-    </div>
 </nav>
 
 <br>
 <br>
 
+<div class="invalid-feedback">
+    Please choose a username.
+</div>
 <div class="container">
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
@@ -64,7 +60,7 @@
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-success">Create account</button>
-                    <span>Are you already registered?<a href="/" th:href="@{/login}">Log in here</a></span>
+                    <span>Are you already registered ? <a href="/" th:href="@{/login}">Log in here</a></span>
                 </div>
             </form>
         </div>

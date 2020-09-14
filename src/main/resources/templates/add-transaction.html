@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <title>Dashboard</title>
+    <title>Expense manager</title>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -44,15 +44,36 @@
 
 <br><br>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <h1>Dashboard</h1>
-            <form>
 
-            </form>
+<div class="container form-inline" style="position: relative; top: 80px; left: auto">
+    <h2 style="position: relative; top: -150px; left: 420px">Add Transaction</h2>
+    <form th:action="@{/transaction/{type}(type=${type})}" method="post">
+        <div th:object="${transaction}">
+            <label for="category"></label>Category:
+            <select id="category" name="category" class="form-control"
+                    style="width: 400px; float: right; position: relative; left: 50px">
+                <option
+                        th:each="category : ${categories}"
+                        th:value="${category.name}"
+                        th:text="${category.name}"></option>
+            </select>
+            <br><br>
+            <label for="amount"></label>Amount:
+            <input type="text" id="amount" name="amount" class="form-control"
+                   style="width: 400px; float: right; position: relative; left: 50px" placeholder="amount" required/>
+            <br><br>
+            <label for="date"></label>Date:
+            <input type="date" id="date" name="date" class="form-control"
+                   style="width: 400px; float: right; position: relative; left: 50px" placeholder="date" required/>
+            <br><br>
+            <label for="comment"></label>Comment:
+            <input type="text" maxlength="200" id="comment" name="comment" class="form-control"
+                   style="width: 400px; float: right; position: relative; left: 50px" placeholder="comment"/>
+            <br><br>
+            <input type="submit" class="btn btn-dark"
+                   style="width: 150px; position: relative; top: 10px; left: 225px" value="Create"/>
         </div>
-    </div>
+    </form>
 </div>
 
 
