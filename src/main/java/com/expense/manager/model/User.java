@@ -37,8 +37,6 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Transaction> transactions;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Balance> balances;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Category> categories;
 
     public User(String username, String email, String password) {

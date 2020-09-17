@@ -3,8 +3,12 @@ package com.expense.manager.web;
 import com.expense.manager.model.Category;
 import com.expense.manager.model.Transaction;
 import com.expense.manager.model.User;
+import com.expense.manager.service.TransactionService;
 import com.expense.manager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,8 +17,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Controller
 @RequestMapping("/transaction")
@@ -22,39 +30,95 @@ public class TransactionController {
 
     private final UserService userService;
 
-    public TransactionController(@Autowired UserService userService) {
+    private final TransactionService transactionService;
+
+    public TransactionController(UserService userService,TransactionService transactionService) {
         this.userService = userService;
+        this.transactionService = transactionService;
     }
 
-    @GetMapping("{type}")
+    @GetMapping("add/{type}")
     public String showTransactionForm(Model model,
                                       @PathVariable String type, Principal principal) {
         User user = userService.findByUsername(principal.getName());
-        List<Category> categories = user.getCategories().stream().filter(category -> category.getType().equals(type)).collect(Collectors.toList());
+        List<Category> categories = user.getCategories().stream().filter(category -> category.getType().equals(type)).collect(toList());
         model.addAttribute("categories",categories);
         model.addAttribute("type",type);
         model.addAttribute("transaction",new Transaction());
         return "add-transaction";
     }
 
-    @PostMapping("{type}")
-    public String saveTransaction(@ModelAttribute("transaction") @Valid Transaction transaction, BindingResult transactionResult,
-                                  @PathVariable String type, RedirectAttributes redirectAttributes,
-                                  Principal principal) throws Exception {
+    @PostMapping("add/{type}")
+    public String saveTransaction(@ModelAttribute("transaction") @Valid Transaction transaction,
+                                  @PathVariable String type, Principal principal) throws Exception {
         User user = userService.findByUsername(principal.getName());
-        if(transactionResult.hasErrors()) {
-            redirectAttributes.addAttribute("type",type);
-            return "redirect:/transaction/{type}";
-        }
-        if (type.equals("outcome"))
+        if (type.equals("outcome") && transaction.getAmount() > 0)
             transaction.setAmount(-transaction.getAmount());
+        else if(type.equals("outcome") && transaction.getAmount() < 0)
+            transaction.setAmount(transaction.getAmount());
         else if (!type.equals("income"))
             throw new Exception("Wrong type of transaction");
         transaction.setType(type);
         user.addTransaction(transaction);
         userService.save(user);
         return "redirect:/";
-
     }
+
+    @GetMapping("/history/{pageId}")
+    public String showTransactionsHistory(Model model, @PathVariable Integer pageId, Principal principal) {
+        Pageable pageable = PageRequest.of(pageId, 5, Sort.by(Sort.Order.asc("date")));
+        List<Transaction> transactionsNextPage = transactionService.findAllByUserUsernameOrderByDateDescPageable(principal.getName(), pageable.next());
+        List<Transaction> transactions = transactionService.findAllByUserUsernameOrderByDateDescPageable(principal.getName(), pageable);
+        int numberOfElements;
+        String isEmpty = "Not Empty";
+        numberOfElements = transactionsNextPage.size();
+        if (numberOfElements == 0)
+            isEmpty = "Empty";
+        LocalDate localDate = LocalDate.now().plusDays(1);
+        LocalDate localDateMonthBefore = LocalDate.now().minusMonths(1);
+        long lastMonthBalance = transactionService.findAllByUserUsernameOrderByDateDesc(principal.getName()).stream()
+                .filter(transaction -> transaction.getDate().isAfter(localDateMonthBefore) && transaction.getDate().isBefore(localDate))
+                .mapToLong(Transaction::getAmount).sum();
+        model.addAttribute("isEmpty", isEmpty);
+        model.addAttribute("pageId", pageId);
+        model.addAttribute("lastMonthBalance",lastMonthBalance);
+        model.addAttribute("transactions",transactions);
+        return "transactions-history";
+    }
+
+    @GetMapping("edit/{transactionId}")
+    public String showEditTransactionFrom(Model model, @PathVariable Long transactionId, Principal principal) {
+        Transaction transaction = transactionService.findById(transactionId);
+        //Finds all categories by type and logged in user
+        List<String> categories = userService.findByUsername(principal.getName()).getCategories().stream()
+                .filter(category -> category.getType().equals(transaction.getType()))
+                .filter(category -> !category.getName().equals(transaction.getCategory()))
+                .map(Category::getName).collect(Collectors.toList());
+        model.addAttribute("transaction",transaction);
+        model.addAttribute("categories",categories);
+        return "edit-transaction";
+    }
+
+    @PostMapping("edit/{transactionId}")
+    public String editTransaction(@ModelAttribute("transaction") Transaction transaction,
+                                  @PathVariable Long transactionId, Principal principal) {
+        long transactionValue = transaction.getAmount();
+        if(transactionValue < 0 && transaction.getType().equals("income"))
+            transactionValue = transactionValue - transactionValue * 2;
+        if(transactionValue > 0 && transaction.getType().equals("outcome"))
+            transactionValue = transactionValue - transactionValue * 2;
+        transaction.setAmount(transactionValue);
+        transaction.setId(transactionId);
+        transaction.setUser(userService.findByUsername(principal.getName()));
+        transactionService.save(transaction);
+        return "redirect:/transaction/history/0";
+    }
+
+    @GetMapping("delete/{transactionId}")
+    public String deleteTransaction(@PathVariable("transactionId") Long transactionId) {
+        transactionService.deleteById(transactionId);
+        return "redirect:/transaction/history/0";
+    }
+
 
 }
