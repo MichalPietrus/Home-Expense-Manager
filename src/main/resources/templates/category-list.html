@@ -36,8 +36,8 @@
                     Transactions
                 </a>
                 <div class="dropdown-menu" aria-labelledby="transaction">
-                    <a class="dropdown-item" th:href="@{/transaction/income}">Add income</a>
-                    <a class="dropdown-item" th:href="@{/transaction/outcome}">Add outcome</a>
+                    <a class="dropdown-item" th:href="@{/transaction/add/income}">Add income</a>
+                    <a class="dropdown-item" th:href="@{/transaction/add/outcome}">Add outcome</a>
                 </div>
             </li>
             <li class="nav-item active" sec:authorize="isAuthenticated()">

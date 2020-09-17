@@ -31,8 +31,8 @@
                     Transactions
                 </a>
                 <div class="dropdown-menu" aria-labelledby="transaction">
-                    <a class="dropdown-item" th:href="@{/transaction/income}">Add income</a>
-                    <a class="dropdown-item" th:href="@{/transaction/outcome}">Add outcome</a>
+                    <a class="dropdown-item" th:href="@{/transaction/add/income}">Add income</a>
+                    <a class="dropdown-item" th:href="@{/transaction/add/outcome}">Add outcome</a>
                 </div>
             </li>
             <li class="nav-item active" sec:authorize="isAuthenticated()">
@@ -44,8 +44,8 @@
 
 <br><br>
 
-<div class="container form-inline" style="position: relative; top: 80px; left: auto">
-    <h2 style="position: relative; top: -100px; left: 390px">Add Category</h2>
+<div class="container form-inline" style="position: absolute; top: 25%; left: 30%">
+    <h2 style="position: absolute; top: -40%; left: 19%">Add Category</h2>
     <form th:action="@{/category/add}" method="post">
         <div th:object="${category}">
             <label for="name"></label>Category:
