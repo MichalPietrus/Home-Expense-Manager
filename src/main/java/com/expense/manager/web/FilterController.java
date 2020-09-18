@@ -29,13 +29,8 @@ public class FilterController {
         String username = principal.getName();
         LocalDate balanceFromDate = LocalDate.parse(balanceDate.getFromDate());
         LocalDate balanceToDate = LocalDate.parse(balanceDate.getToDate());
-        Pageable pageable = PageRequest.of(pageId, 5);
-        List<Transaction> transactions = transactionService.findAllByUserUsernameAndDateBetweenPageable(username,balanceFromDate,balanceToDate,pageable);
-        return null;
+        Pageable pageable = PageRequest.of(pageId, 5, Sort.by(Sort.Order.desc("date")));
+        return transactionService.findAllByUserUsernameAndDateBetweenPageable(username,balanceFromDate,balanceToDate,pageable);
     }
-
-
-
-
 
 }
