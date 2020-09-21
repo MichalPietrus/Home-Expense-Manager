@@ -2,6 +2,7 @@ package com.expense.manager.service;
 
 import com.expense.manager.model.Transaction;
 import com.expense.manager.repository.TransactionRepository;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -44,12 +45,17 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<Transaction> findAllByUserUsernameOrderByDateDescPageable(String username, Pageable pageable) {
+    public Page<Transaction> findAllByUserUsernameOrderByDateDescPageable(String username, Pageable pageable) {
         return transactionRepository.findAllByUserUsernameOrderByDateDesc(username,pageable);
     }
 
     @Override
-    public List<Transaction> findAllByUserUsernameAndDateBetweenPageable(String username, LocalDate fromDate, LocalDate toDate, Pageable pageable) {
+    public Page<Transaction> findAllByUserUsernameAndDateBetweenPageable(String username, LocalDate fromDate, LocalDate toDate, Pageable pageable) {
         return transactionRepository.findAllByUserUsernameAndDateBetween(username,fromDate,toDate,pageable);
+    }
+
+    @Override
+    public Page<Transaction> findAllByUserUsernameAndDateBetweenAndTypeEquals(String username, LocalDate fromDate, LocalDate toDate, String type, Pageable pageable) {
+        return transactionRepository.findAllByUserUsernameAndDateBetweenAndTypeEquals(username,fromDate,toDate,type,pageable);
     }
 }

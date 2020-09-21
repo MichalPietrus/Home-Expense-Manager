@@ -45,11 +45,11 @@
 <br><br>
 
 <div class="container form-inline" style="position: absolute; top: 25%; left: 30%">
-    <h2 style="position: absolute; top: -40%; left: 19%">Add Category</h2>
+    <h2 style="position: absolute; bottom: 110%; left: 19%">Add Category</h2>
     <form th:action="@{/category/add}" method="post">
         <div th:object="${category}">
             <label for="name"></label>Category:
-            <input type="text" maxlength="50" id="name" name="name" class="form-control"
+            <input type="text" maxlength="20" id="name" name="name" class="form-control"
                    style="width: 400px; float: right; position: relative; left: 30px" placeholder="category" required/>
             <br><br>
             <label for="type"></label>Type:

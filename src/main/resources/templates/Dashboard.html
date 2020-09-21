@@ -10,6 +10,24 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>Dashboard</title>
 </head>
+<style>
+    .rcorners {
+        border-radius: 25px;
+        border: 2px solid gray;
+        padding: 20px;
+    }
+    .progress-bar-dimensions {
+        width: 270px;
+        height: 25px;
+        float: right;
+        position: relative; right: 20px
+    }
+    .transaction-category-progress-bar {
+        float: left;
+        position:relative;
+        left: 20px
+    }
+</style>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="/">Expense manager</a>
@@ -46,7 +64,7 @@
 
 <div class="container" style="text-align: center; position:relative; top: 20px; left: 200px">
     <div class="row">
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-lg-6 col-lg-offset-3">
             <h1>Dashboard</h1>
             <hr>
             <a class="btn btn-dark" th:href="@{/transaction/history/0}" style="width: 150px">History</a>
@@ -58,14 +76,61 @@
             <hr>
             From: <input type="date" id="FromDate" onchange="changeBalance()"/>
             To: <input type="date" id="ToDate" onchange="changeBalance()"/>
-            <br>
+            <br><br>
             <i>*If nothing is selected, then the balance for the last month is displayed</i>
             <br><br>
         </div>
     </div>
+    <form>
+        <input type="hidden" th:value="${0}" name="pageId">
+        <div class="container">
+
+            <!--   Left Column     -->
+
+            <div class="rcorners" style="float: left;width: 500px;height: 410px; position: relative; right: 280px; top: 15px">
+                <h5 id="Incomes" th:text="${'Incomes : ' + lastMonthIncome + ' PLN'}"></h5>
+                <div th:if="${categoriesIncomeRanking.size() >= 1}">
+                <br>
+                <i th:text="${categoriesIncomeRanking.get(0).name}" class="transaction-category-progress-bar"></i>
+                <div class="progress progress-bar-dimensions">
+                    <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+                </div>
+                </div>
+                <div th:if="${categoriesIncomeRanking.size() >= 2}">
+                <br>
+                <hr>
+                <i th:text="${categoriesIncomeRanking.get(1).name}" class="transaction-category-progress-bar"></i>
+                <div class="progress progress-bar-dimensions">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+                </div>
+                </div>
+                <div th:if="${categoriesIncomeRanking.size() == 3}">
+                <br>
+                <hr>
+                <i th:text="${categoriesIncomeRanking.get(2).name}" class="transaction-category-progress-bar"></i>
+                <div class="progress progress-bar-dimensions">
+                    <div class="progress-bar progress-bar-striped bg-danger progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" th:style="'width: ' + ${60} + '%'"></div>
+                </div>
+                </div>
+                <br><hr>
+                <h5>Choose Time Frame</h5>
+                <br>
+                From: <input type="date" id="IncomeFromDate" onchange="changeIncome()"/>
+                To: <input type="date" id="IncomeToDate" onchange="changeIncome()"/>
+            </div>
+
+
+            <!--   Right Column   -->
+
+
+            <div class="rcorners" style="float: right;width: 500px;height: 410px; position: relative; right: 250px; top: 15px">
+                <h5 id="Outcomes" th:text="${'Outcomes : ' + lastMonthOutcome + ' PLN'}"></h5>
+            </div>
+        </div>
+    </form>
 </div>
 
-<script th:src="@{/js/calculateBalance.js}"></script>
+<script th:src="@{/js/calculateBalanceIncomeAndOutcome.js}"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"

@@ -1,6 +1,7 @@
 package com.expense.manager.service;
 
 import com.expense.manager.model.Transaction;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
@@ -18,8 +19,10 @@ public interface TransactionService {
 
     void deleteById(Long id);
 
-    List<Transaction> findAllByUserUsernameOrderByDateDescPageable(String username, Pageable pageable);
+    Page<Transaction> findAllByUserUsernameOrderByDateDescPageable(String username, Pageable pageable);
 
-    List<Transaction> findAllByUserUsernameAndDateBetweenPageable(String username, LocalDate fromDate, LocalDate toDate, Pageable pageable);
+    Page<Transaction> findAllByUserUsernameAndDateBetweenPageable(String username, LocalDate fromDate, LocalDate toDate, Pageable pageable);
+
+    Page<Transaction> findAllByUserUsernameAndDateBetweenAndTypeEquals(String username, LocalDate fromDate, LocalDate toDate, String type, Pageable pageable);
 
 }

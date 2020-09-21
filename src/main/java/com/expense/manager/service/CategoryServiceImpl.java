@@ -2,6 +2,7 @@ package com.expense.manager.service;
 
 import com.expense.manager.model.Category;
 import com.expense.manager.repository.CategoryRepository;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 
@@ -23,7 +24,7 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
-    public List<Category> findAllCategoriesByUsernamePageable(String username, Pageable pageable) {
+    public Page<Category> findAllCategoriesByUsernamePageable(String username, Pageable pageable) {
         return categoryRepository.findAllByUserUsername(username,pageable);
     }
 

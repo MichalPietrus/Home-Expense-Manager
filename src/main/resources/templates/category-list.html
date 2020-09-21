@@ -49,7 +49,7 @@
 
 <br><br>
 
-<div class="col-sm-10" th:switch="${categories}">
+<div class="col-sm-10" th:switch="${categories.getContent()}">
     <h2 th:case="null">No categories yet!</h2>
     <div th:case="*">
         <h2>Categories</h2>
@@ -62,7 +62,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="category : ${categories}">
+            <tr th:each="category : ${categories.getContent()}">
                 <td th:text="${category.name}"></td>
                 <td th:text="${category.type}"></td>
                 <td class="Center" style="text-align: center">
@@ -95,15 +95,15 @@
                     <a class="page-link" th:href="${pageId}" th:text="${pageId + 1}"></a>
                 </li>
                 <li class="page-item">
-                    <div th:if="${isEmpty.equals('Empty')}"></div>
-                    <div th:unless="${isEmpty.equals('Empty')}">
+                    <div th:if="${categories.isLast()}"></div>
+                    <div th:if="${!categories.isLast()}">
                         <a class="page-link" th:href="${pageId + 1}" th:text="${pageId + 2}"></a>
                     </div>
                 </li>
                 <li class="page-item">
-                    <div th:if="${isEmpty.equals('Empty')}">
+                    <div th:if="${categories.isLast()}">
                         <a class="page-link disabled">Next</a></div>
-                    <div th:unless="${isEmpty.equals('Empty')}">
+                    <div th:if="${!categories.isLast()}">
                         <a class="page-link" th:href="${pageId + 1}">Next</a>
                     </div>
                 </li>
