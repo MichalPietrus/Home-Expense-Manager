@@ -16,7 +16,7 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
-    @Size(max = 50)
+    @Size(max = 20)
     private String name;
     /**
      * income

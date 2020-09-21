@@ -6,6 +6,7 @@ import com.expense.manager.model.User;
 import com.expense.manager.service.TransactionService;
 import com.expense.manager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -67,20 +68,12 @@ public class TransactionController {
     @GetMapping("/history/{pageId}")
     public String showTransactionsHistory(Model model, @PathVariable Integer pageId, Principal principal) {
         Pageable pageable = PageRequest.of(pageId, 5, Sort.by(Sort.Order.asc("date")));
-        List<Transaction> transactionsNextPage = transactionService.findAllByUserUsernameOrderByDateDescPageable(principal.getName(), pageable.next());
-        List<Transaction> transactions = transactionService.findAllByUserUsernameOrderByDateDescPageable(principal.getName(), pageable);
-        int numberOfElements;
-        String isEmpty = "Not Empty";
-        numberOfElements = transactionsNextPage.size();
-        if (numberOfElements == 0)
-            isEmpty = "Empty";
+        Page<Transaction> transactions = transactionService.findAllByUserUsernameOrderByDateDescPageable(principal.getName(), pageable);
         LocalDate localDate = LocalDate.now().plusDays(1);
         LocalDate localDateMonthBefore = LocalDate.now().minusMonths(1);
         long lastMonthBalance = transactionService.findAllByUserUsernameOrderByDateDesc(principal.getName()).stream()
                 .filter(transaction -> transaction.getDate().isAfter(localDateMonthBefore) && transaction.getDate().isBefore(localDate))
                 .mapToLong(Transaction::getAmount).sum();
-        model.addAttribute("isEmpty", isEmpty);
-        model.addAttribute("pageId", pageId);
         model.addAttribute("lastMonthBalance",lastMonthBalance);
         model.addAttribute("transactions",transactions);
         return "transactions-history";

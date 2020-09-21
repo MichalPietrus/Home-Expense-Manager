@@ -5,6 +5,7 @@ import com.expense.manager.model.User;
 import com.expense.manager.service.CategoryService;
 import com.expense.manager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -15,7 +16,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.List;
 
 @Controller
 @RequestMapping("/category")
@@ -32,15 +32,7 @@ public class CategoryController {
     @GetMapping("/list/{pageId}")
     public String showCategories(Model model, Principal principal, @PathVariable Integer pageId) {
         Pageable pageable = PageRequest.of(pageId, 5, Sort.by(Sort.Order.asc("name")));
-        List<Category> categoriesNextPage = categoryService.findAllCategoriesByUsernamePageable(principal.getName(), pageable.next());
-        List<Category> categories = categoryService.findAllCategoriesByUsernamePageable(principal.getName(), pageable);
-        int numberOfElements;
-        String isEmpty = "Not Empty";
-        numberOfElements = categoriesNextPage.size();
-        if (numberOfElements == 0)
-            isEmpty = "Empty";
-        model.addAttribute("isEmpty", isEmpty);
-        model.addAttribute("pageId", pageId);
+        Page<Category> categories = categoryService.findAllCategoriesByUsernamePageable(principal.getName(), pageable);
         model.addAttribute("categories",categories);
         return "category-list";
     }
