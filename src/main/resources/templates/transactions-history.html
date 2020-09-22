@@ -180,7 +180,7 @@
     function transactionsTableFilter() {
         let balanceFromDate = document.getElementById("FromDate").value;
         let balanceToDate = document.getElementById("ToDate").value;
-        let selectedFilter = $("#showOnlyFilter :selected").text();
+        let type = $("#showOnlyFilter :selected").text();
         /*<![CDATA[*/
         let pageId = [[${pageId}]];
         /*]]>*/
@@ -188,7 +188,7 @@
             let TransactionFilter = {
                 fromDate: balanceFromDate,
                 toDate: balanceToDate,
-                filter: selectedFilter
+                type: type
             };
             $.ajax({
                 url: "/filter/by-date/" + pageId,
