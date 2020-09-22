@@ -43,7 +43,7 @@ public class RegistrationController {
         if (existingByUserName != null) {
             result.rejectValue("username", null, "There is already an account registered with that username");
         } else if (existingByUserEmail != null) {
-            result.rejectValue("username", null, "There is already an account registered with that email");
+            result.rejectValue("email", null, "There is already an account registered with that email");
         }
         if (result.hasErrors()) {
             return "registration";
