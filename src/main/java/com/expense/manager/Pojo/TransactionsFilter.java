@@ -7,6 +7,9 @@ public class TransactionsFilter {
 
     private String fromDate;
     private String toDate;
-    private String filter;
+    /**
+     * type of transaction
+     */
+    private String type;
 
 }

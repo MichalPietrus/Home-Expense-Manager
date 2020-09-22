@@ -7,7 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -24,16 +23,16 @@ public class FilterController {
     }
 
     @PostMapping("/by-date/{pageId}")
-    public Page<Transaction> filterTransactionsTableByDate(@RequestBody TransactionsFilter transactionsFilter, Principal principal, @PathVariable Integer pageId, Model model) {
+    public Page<Transaction> filterTransactionsTableByDate(@RequestBody TransactionsFilter transactionsFilter, Principal principal, @PathVariable Integer pageId) {
         String username = principal.getName();
         LocalDate balanceFromDate = LocalDate.parse(transactionsFilter.getFromDate());
         LocalDate balanceToDate = LocalDate.parse(transactionsFilter.getToDate());
-        String filter = transactionsFilter.getFilter();
+        String type = transactionsFilter.getType();
         Pageable pageable = PageRequest.of(pageId, 5, Sort.by(Sort.Order.desc("date")));
         Page<Transaction> transactions;
-        if(filter.equals("Only Income"))
+        if(type.equals("Only Income"))
             transactions = transactionService.findAllByUserUsernameAndDateBetweenAndTypeEquals(username, balanceFromDate, balanceToDate, "income", pageable);
-        else if(filter.equals("Only Outcome"))
+        else if(type.equals("Only Outcome"))
             transactions = transactionService.findAllByUserUsernameAndDateBetweenAndTypeEquals(username, balanceFromDate, balanceToDate, "outcome", pageable);
         else
             transactions = transactionService.findAllByUserUsernameAndDateBetweenPageable(username, balanceFromDate, balanceToDate, pageable);

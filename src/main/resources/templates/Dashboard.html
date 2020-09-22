@@ -22,11 +22,19 @@
         float: right;
         position: relative; right: 20px
     }
-    .transaction-category-progress-bar {
+    .transaction-category-name-progress-bar {
         float: left;
         position:relative;
         left: 20px
     }
+
+    .transaction-category-amount-progress-bar {
+        float: right;
+        position:relative;
+        left: 35px;
+        top: 5px
+    }
+
 </style>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -64,7 +72,7 @@
 
 <div class="container" style="text-align: center; position:relative; top: 20px; left: 200px">
     <div class="row">
-        <div class="col-lg-6 col-lg-offset-3">
+        <div class="col-xl-6 col-xl-offset-3">
             <h1>Dashboard</h1>
             <hr>
             <a class="btn btn-dark" th:href="@{/transaction/history/0}" style="width: 150px">History</a>
@@ -87,50 +95,95 @@
 
             <!--   Left Column     -->
 
-            <div class="rcorners" style="float: left;width: 500px;height: 410px; position: relative; right: 280px; top: 15px">
+            <div class="rcorners" style="float: left;width: 540px;height: 420px; position: relative; right: 330px">
                 <h5 id="Incomes" th:text="${'Incomes : ' + lastMonthIncome + ' PLN'}"></h5>
+                <div id="incomesColumn">
                 <div th:if="${categoriesIncomeRanking.size() >= 1}">
-                <br>
-                <i th:text="${categoriesIncomeRanking.get(0).name}" class="transaction-category-progress-bar"></i>
-                <div class="progress progress-bar-dimensions">
-                    <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
-                </div>
+                    <br>
+                    <i th:text="${categoriesIncomeRanking.get(0).name}" class="transaction-category-name-progress-bar"></i>
+                    <div class="progress progress-bar-dimensions">
+                        <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" th:text="${categoriesIncomeRanking.get(0).printPercentageContribution()} + ' %'" th:style="'width: ' + ${categoriesIncomeRanking.get(0).percentageContribution} + '%'"></div>
+                    </div>
+                    <br>
+                    <i th:text="${categoriesIncomeRanking.get(0).amount + ' zł'}" class="transaction-category-amount-progress-bar"></i>
                 </div>
                 <div th:if="${categoriesIncomeRanking.size() >= 2}">
-                <br>
-                <hr>
-                <i th:text="${categoriesIncomeRanking.get(1).name}" class="transaction-category-progress-bar"></i>
-                <div class="progress progress-bar-dimensions">
-                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
-                </div>
+                    <br>
+                    <hr>
+                    <i th:text="${categoriesIncomeRanking.get(1).name}" class="transaction-category-name-progress-bar"></i>
+                    <div class="progress progress-bar-dimensions">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" th:text="${categoriesIncomeRanking.get(1).printPercentageContribution()} + '%'" th:style="'width: ' + ${categoriesIncomeRanking.get(1).percentageContribution} + '%'">100</div>
+                    </div>
+                    <br>
+                    <i th:text="${categoriesIncomeRanking.get(1).amount + ' zł'}" class="transaction-category-amount-progress-bar"></i>
                 </div>
                 <div th:if="${categoriesIncomeRanking.size() == 3}">
-                <br>
-                <hr>
-                <i th:text="${categoriesIncomeRanking.get(2).name}" class="transaction-category-progress-bar"></i>
-                <div class="progress progress-bar-dimensions">
-                    <div class="progress-bar progress-bar-striped bg-danger progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" th:style="'width: ' + ${60} + '%'"></div>
+                    <br>
+                    <hr>
+                    <i th:text="${categoriesIncomeRanking.get(2).name}" class="transaction-category-name-progress-bar"></i>
+                    <div class="progress progress-bar-dimensions">
+                        <div class="progress-bar progress-bar-striped bg-danger progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" th:text="${categoriesIncomeRanking.get(2).printPercentageContribution()} + ' %'" th:style="'width: ' + ${categoriesIncomeRanking.get(2).percentageContribution} + '%'"></div>
+                    </div>
+                    <br>
+                    <i th:text="${categoriesIncomeRanking.get(2).amount + ' zł'}" class="transaction-category-amount-progress-bar"></i>
                 </div>
                 </div>
-                <br><hr>
+                <br><br>
                 <h5>Choose Time Frame</h5>
                 <br>
-                From: <input type="date" id="IncomeFromDate" onchange="changeIncome()"/>
-                To: <input type="date" id="IncomeToDate" onchange="changeIncome()"/>
+                From: <input type="date" id="IncomeFromDate" onchange="changeIncome();changeIncomeCategories()"/>
+                To: <input type="date" id="IncomeToDate" onchange="changeIncome();changeIncomeCategories()"/>
             </div>
 
 
             <!--   Right Column   -->
 
 
-            <div class="rcorners" style="float: right;width: 500px;height: 410px; position: relative; right: 250px; top: 15px">
+            <div class="rcorners" style="float: right;width: 540px;height: 420px; position: relative; right: 220px">
                 <h5 id="Outcomes" th:text="${'Outcomes : ' + lastMonthOutcome + ' PLN'}"></h5>
+                <div id="outcomesColumn">
+                <div th:if="${categoriesOutcomeRanking.size() >= 1}">
+                    <br>
+                    <i th:text="${categoriesOutcomeRanking.get(0).name}" class="transaction-category-name-progress-bar"></i>
+                    <div class="progress progress-bar-dimensions">
+                        <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" th:text="${categoriesOutcomeRanking.get(0).printPercentageContribution()} + ' %'" th:style="'width: ' + ${categoriesOutcomeRanking.get(0).percentageContribution} + '%'"></div>
+                    </div>
+                    <br>
+                    <i th:text="${categoriesOutcomeRanking.get(0).amount + ' zł'}" class="transaction-category-amount-progress-bar"></i>
+                </div>
+                <div th:if="${categoriesOutcomeRanking.size() >= 2}">
+                    <br>
+                    <hr>
+                    <i th:text="${categoriesOutcomeRanking.get(1).name}" class="transaction-category-name-progress-bar"></i>
+                    <div class="progress progress-bar-dimensions">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" th:text="${categoriesOutcomeRanking.get(1).printPercentageContribution()} + ' %'" th:style="'width: ' + ${categoriesOutcomeRanking.get(1).percentageContribution} + '%'"></div>
+                    </div>
+                    <br>
+                    <i th:text="${categoriesOutcomeRanking.get(1).amount + ' zł'}" class="transaction-category-amount-progress-bar"></i>
+                </div>
+                <div th:if="${categoriesOutcomeRanking.size() == 3}">
+                    <br>
+                    <hr>
+                    <i th:text="${categoriesOutcomeRanking.get(2).name}" class="transaction-category-name-progress-bar"></i>
+                    <div class="progress progress-bar-dimensions">
+                        <div class="progress-bar progress-bar-striped bg-danger progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" th:text="${categoriesOutcomeRanking.get(2).printPercentageContribution()} + ' %'" th:style="'width: ' + ${categoriesOutcomeRanking.get(2).percentageContribution} + '%'"></div>
+                    </div>
+                    <br>
+                    <i th:text="${categoriesOutcomeRanking.get(2).amount + ' zł'}" class="transaction-category-amount-progress-bar"></i>
+                </div>
+                </div>
+                <br><br>
+                <h5>Choose Time Frame</h5>
+                <br>
+                From: <input type="date" id="OutcomeFromDate" onchange="changeOutcome();changeOutcomeCategories()"/>
+                To: <input type="date" id="OutcomeToDate" onchange="changeOutcome();changeOutcomeCategories()"/>
             </div>
         </div>
     </form>
 </div>
 
 <script th:src="@{/js/calculateBalanceIncomeAndOutcome.js}"></script>
+<script th:src="@{/js/changeCategories.js}"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
