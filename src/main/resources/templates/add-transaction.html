@@ -11,36 +11,7 @@
     <title>Expense manager</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/">Expense manager</a>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active dropdown" sec:authorize="isAuthenticated()">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarCategories" role="button"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Categories
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarCategories">
-                    <a class="dropdown-item" th:href="@{/category/list/0}">Categories list</a>
-                    <a class="dropdown-item" th:href="@{/category/add}">Add Category</a>
-                </div>
-            </li>
-            <li class="nav-item active dropdown" sec:authorize="isAuthenticated()">
-                <a class="nav-link dropdown-toggle" href="#" id="transaction" role="button"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Transactions
-                </a>
-                <div class="dropdown-menu" aria-labelledby="transaction">
-                    <a class="dropdown-item" th:href="@{/transaction/add/income}">Add income</a>
-                    <a class="dropdown-item" th:href="@{/transaction/add/outcome}">Add outcome</a>
-                </div>
-            </li>
-            <li class="nav-item active" sec:authorize="isAuthenticated()">
-                <a class="nav-link" th:href="@{/logout}">Logout</a>
-            </li>
-        </ul>
-    </div>
-</nav>
+<nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-light"></nav>
 
 <br><br>
 
@@ -76,7 +47,12 @@
     </form>
 </div>
 
-
+<script th:src="@{/js/navbar.js}"></script>
+<script>
+    window.onload = function () {
+        printNavbar();
+    }
+</script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
