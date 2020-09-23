@@ -1,7 +1,8 @@
 package com.expense.manager.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -14,7 +15,7 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"email","username"}))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"email", "username"}))
 public class User {
 
     @Id
@@ -48,14 +49,14 @@ public class User {
     }
 
     public void addTransaction(Transaction transaction) {
-        if(transaction != null && transaction.getAmount() != null && transaction.getCategory() != null) {
+        if (transaction != null && transaction.getAmount() != null && transaction.getCategory() != null) {
             transactions.add(transaction);
             transaction.setUser(this);
         }
     }
 
     public void addCategory(Category category) {
-        if(category != null){
+        if (category != null) {
             categories.add(category);
             category.setUser(this);
         }
@@ -63,18 +64,18 @@ public class User {
 
     public void addBasicIncomeAndOutcomeList() {
         categories = new ArrayList<>();
-        categories.addAll(Arrays.asList(new Category("Food","outcome"),
-                new Category("Rent","outcome"),
-                new Category("Credit","outcome"),
-                new Category("Bills","outcome"),
-                new Category("Health","outcome"),
-                new Category("Hygiene","outcome"),
-                new Category("Chemicals","outcome"),
-                new Category("Clothes","outcome"),
-                new Category("Relaxation","outcome"),
-                new Category("Transport","outcome"),
-                new Category("Others","outcome"),
-                new Category("Salary","income")));
+        categories.addAll(Arrays.asList(new Category("Food", "outcome"),
+                new Category("Rent", "outcome"),
+                new Category("Credit", "outcome"),
+                new Category("Bills", "outcome"),
+                new Category("Health", "outcome"),
+                new Category("Hygiene", "outcome"),
+                new Category("Chemicals", "outcome"),
+                new Category("Clothes", "outcome"),
+                new Category("Relaxation", "outcome"),
+                new Category("Transport", "outcome"),
+                new Category("Others", "outcome"),
+                new Category("Salary", "income")));
         categories.forEach(category -> category.setUser(this));
     }
 

@@ -3,14 +3,11 @@ package com.expense.manager.service;
 import com.expense.manager.model.Category;
 import com.expense.manager.repository.CategoryRepository;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-
-import org.springframework.data.domain.Pageable;
-import java.util.List;
-
 @Service
-public class CategoryServiceImpl implements CategoryService{
+public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
 
@@ -25,7 +22,7 @@ public class CategoryServiceImpl implements CategoryService{
 
     @Override
     public Page<Category> findAllCategoriesByUsernamePageable(String username, Pageable pageable) {
-        return categoryRepository.findAllByUserUsername(username,pageable);
+        return categoryRepository.findAllByUserUsername(username, pageable);
     }
 
 }

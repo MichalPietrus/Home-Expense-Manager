@@ -1,7 +1,7 @@
 function changeBalance() {
     let balanceFromDate = document.getElementById("FromDate").value;
     let balanceToDate = document.getElementById("ToDate").value;
-    if(balanceToDate && balanceFromDate) {
+    if (balanceToDate && balanceFromDate) {
         let balanceDate = {
             fromDate: balanceFromDate,
             toDate: balanceToDate
@@ -23,7 +23,7 @@ function changeBalance() {
 function changeIncome() {
     let IncomeFromDate = document.getElementById("IncomeFromDate").value;
     let IncomeToDate = document.getElementById("IncomeToDate").value;
-    if(IncomeFromDate && IncomeToDate) {
+    if (IncomeFromDate && IncomeToDate) {
         let incomeDate = {
             fromDate: IncomeFromDate,
             toDate: IncomeToDate
@@ -44,7 +44,7 @@ function changeIncome() {
 function changeOutcome() {
     let OutcomeFromDate = document.getElementById("OutcomeFromDate").value;
     let OutcomeToDate = document.getElementById("OutcomeToDate").value;
-    if(OutcomeFromDate && OutcomeToDate) {
+    if (OutcomeFromDate && OutcomeToDate) {
         let outcomeDate = {
             fromDate: OutcomeFromDate,
             toDate: OutcomeToDate

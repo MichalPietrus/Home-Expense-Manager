@@ -4,20 +4,15 @@ import com.expense.manager.Pojo.CategoryRanking;
 import com.expense.manager.Pojo.TransactionsFilter;
 import com.expense.manager.model.Transaction;
 import com.expense.manager.service.TransactionService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
-import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
-
-import static com.expense.manager.web.DashboardController.getThreeCategoriesWithBiggestOrLowestValue;
 
 @RestController
 @RequestMapping("/categories-filter")
@@ -45,7 +40,7 @@ public class CategoriesFilterController {
         // Calculating which three categories were the most profitable.
 
 
-        if(type.equals("income")) {
+        if (type.equals("income")) {
             Map<String, Long> categoriesRankingIncomeMapSorted = new LinkedHashMap<>();
             long totalIncome = transactions.stream()
                     .filter(transaction -> transaction.getType().equals("income")).mapToLong(Transaction::getAmount).sum();
@@ -59,7 +54,7 @@ public class CategoriesFilterController {
                     .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                     .forEachOrdered(x -> categoriesRankingIncomeMapSorted.put(x.getKey(), x.getValue()));
 
-            getThreeCategoriesWithBiggestOrLowestValue(categoriesRankingIncomeMapSorted, categoriesRanking, totalIncome, "income");
+            transactionService.getThreeCategoriesWithBiggestOrLowestValue(categoriesRankingIncomeMapSorted, categoriesRanking, totalIncome, "income");
         }
 
 
@@ -80,7 +75,7 @@ public class CategoriesFilterController {
                     .sorted(Map.Entry.comparingByValue())
                     .forEachOrdered(x -> categoriesRankingOutcomeMapSorted.put(x.getKey(), x.getValue()));
 
-            getThreeCategoriesWithBiggestOrLowestValue(categoriesRankingOutcomeMapSorted, categoriesRanking, totalOutcome, "outcome");
+            transactionService.getThreeCategoriesWithBiggestOrLowestValue(categoriesRankingOutcomeMapSorted, categoriesRanking, totalOutcome, "outcome");
         }
 
         return categoriesRanking;

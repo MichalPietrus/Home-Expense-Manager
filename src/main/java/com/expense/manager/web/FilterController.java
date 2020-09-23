@@ -30,9 +30,9 @@ public class FilterController {
         String type = transactionsFilter.getType();
         Pageable pageable = PageRequest.of(pageId, 5, Sort.by(Sort.Order.desc("date")));
         Page<Transaction> transactions;
-        if(type.equals("Only Income"))
+        if (type.equals("Only Income"))
             transactions = transactionService.findAllByUserUsernameAndDateBetweenAndTypeEquals(username, balanceFromDate, balanceToDate, "income", pageable);
-        else if(type.equals("Only Outcome"))
+        else if (type.equals("Only Outcome"))
             transactions = transactionService.findAllByUserUsernameAndDateBetweenAndTypeEquals(username, balanceFromDate, balanceToDate, "outcome", pageable);
         else
             transactions = transactionService.findAllByUserUsernameAndDateBetweenPageable(username, balanceFromDate, balanceToDate, pageable);

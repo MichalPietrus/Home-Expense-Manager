@@ -1,11 +1,13 @@
 package com.expense.manager.service;
 
+import com.expense.manager.Pojo.CategoryRanking;
 import com.expense.manager.model.Transaction;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public interface TransactionService {
 
@@ -25,4 +27,7 @@ public interface TransactionService {
 
     Page<Transaction> findAllByUserUsernameAndDateBetweenAndTypeEquals(String username, LocalDate fromDate, LocalDate toDate, String type, Pageable pageable);
 
+    void getThreeCategoriesWithBiggestOrLowestValue
+            (Map<String, Long> categoriesRankingIncomeMap,
+             List<CategoryRanking> categoriesIncomeRanking, long lastMonthIncomeOrOutcome, String type);
 }

@@ -33,7 +33,7 @@ public class CategoryController {
     public String showCategories(Model model, Principal principal, @PathVariable Integer pageId) {
         Pageable pageable = PageRequest.of(pageId, 5, Sort.by(Sort.Order.asc("name")));
         Page<Category> categories = categoryService.findAllCategoriesByUsernamePageable(principal.getName(), pageable);
-        model.addAttribute("categories",categories);
+        model.addAttribute("categories", categories);
         return "category-list";
     }
 
@@ -55,7 +55,7 @@ public class CategoryController {
     @GetMapping("/delete-category/{pageId}/{id}")
     public String deleteCategory(@PathVariable Long id, RedirectAttributes redirectAttributes, @PathVariable Integer pageId) {
         categoryService.delete(id);
-        redirectAttributes.addAttribute("pageId",pageId);
+        redirectAttributes.addAttribute("pageId", pageId);
         return "redirect:/category/list/{pageId}";
     }
 

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -44,7 +44,8 @@
                    style="width: 400px; float: right; position: relative; left: 50px" placeholder="date" required/>
             <br><br>
             <label for="comment"></label>Comment:
-            <input type="text" maxlength="200" id="comment" name="comment" class="form-control" th:value="${transaction.comment}"
+            <input type="text" maxlength="200" id="comment" name="comment" class="form-control"
+                   th:value="${transaction.comment}"
                    style="width: 400px; float: right; position: relative; left: 50px" placeholder="comment"/>
             <br><br>
             <input type="submit" class="btn btn-dark"

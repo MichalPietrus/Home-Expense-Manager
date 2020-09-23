@@ -5,22 +5,18 @@ import com.expense.manager.model.Transaction;
 import com.expense.manager.model.User;
 import com.expense.manager.service.TransactionService;
 import com.expense.manager.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
@@ -33,7 +29,7 @@ public class TransactionController {
 
     private final TransactionService transactionService;
 
-    public TransactionController(UserService userService,TransactionService transactionService) {
+    public TransactionController(UserService userService, TransactionService transactionService) {
         this.userService = userService;
         this.transactionService = transactionService;
     }
@@ -43,9 +39,9 @@ public class TransactionController {
                                       @PathVariable String type, Principal principal) {
         User user = userService.findByUsername(principal.getName());
         List<Category> categories = user.getCategories().stream().filter(category -> category.getType().equals(type)).collect(toList());
-        model.addAttribute("categories",categories);
-        model.addAttribute("type",type);
-        model.addAttribute("transaction",new Transaction());
+        model.addAttribute("categories", categories);
+        model.addAttribute("type", type);
+        model.addAttribute("transaction", new Transaction());
         return "add-transaction";
     }
 
@@ -55,7 +51,7 @@ public class TransactionController {
         User user = userService.findByUsername(principal.getName());
         if (type.equals("outcome") && transaction.getAmount() > 0)
             transaction.setAmount(-transaction.getAmount());
-        else if(type.equals("outcome") && transaction.getAmount() < 0)
+        else if (type.equals("outcome") && transaction.getAmount() < 0)
             transaction.setAmount(transaction.getAmount());
         else if (!type.equals("income"))
             throw new Exception("Wrong type of transaction");
@@ -74,8 +70,8 @@ public class TransactionController {
         long lastMonthBalance = transactionService.findAllByUserUsernameOrderByDateDesc(principal.getName()).stream()
                 .filter(transaction -> transaction.getDate().isAfter(localDateMonthBefore) && transaction.getDate().isBefore(localDate))
                 .mapToLong(Transaction::getAmount).sum();
-        model.addAttribute("lastMonthBalance",lastMonthBalance);
-        model.addAttribute("transactions",transactions);
+        model.addAttribute("lastMonthBalance", lastMonthBalance);
+        model.addAttribute("transactions", transactions);
         return "transactions-history";
     }
 
@@ -87,8 +83,8 @@ public class TransactionController {
                 .filter(category -> category.getType().equals(transaction.getType()))
                 .filter(category -> !category.getName().equals(transaction.getCategory()))
                 .map(Category::getName).collect(Collectors.toList());
-        model.addAttribute("transaction",transaction);
-        model.addAttribute("categories",categories);
+        model.addAttribute("transaction", transaction);
+        model.addAttribute("categories", categories);
         return "edit-transaction";
     }
 
@@ -96,9 +92,9 @@ public class TransactionController {
     public String editTransaction(@ModelAttribute("transaction") Transaction transaction,
                                   @PathVariable Long transactionId, Principal principal) {
         long transactionValue = transaction.getAmount();
-        if(transactionValue < 0 && transaction.getType().equals("income"))
+        if (transactionValue < 0 && transaction.getType().equals("income"))
             transactionValue = transactionValue - transactionValue * 2;
-        if(transactionValue > 0 && transaction.getType().equals("outcome"))
+        if (transactionValue > 0 && transaction.getType().equals("outcome"))
             transactionValue = transactionValue - transactionValue * 2;
         transaction.setAmount(transactionValue);
         transaction.setId(transactionId);

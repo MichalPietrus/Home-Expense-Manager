@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -25,21 +25,23 @@
             <form th:action="@{/login}" method="post">
                 <div th:if="${param.error}">
                     <div class="alert alert-danger">
-                        Incorrect username or password</div>
+                        Incorrect username or password
+                    </div>
                 </div>
                 <div th:if="${param.logout}">
                     <div class="alert alert-info">
-                        You have been logged out</div>
+                        You have been logged out
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="username">Username</label>: <input type="text"
-                                                                 id="username" name="username" class="form-control"
-                                                                 autofocus="autofocus" placeholder="Username"/>
+                                                                   id="username" name="username" class="form-control"
+                                                                   autofocus="autofocus" placeholder="Username"/>
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>: <input type="password"
-                                                                id="password" name="password" class="form-control"
-                                                                placeholder="password"/>
+                                                                   id="password" name="password" class="form-control"
+                                                                   placeholder="password"/>
                 </div>
                 <div class="form-group">
                     <div class="row">

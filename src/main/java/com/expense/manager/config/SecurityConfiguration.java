@@ -1,9 +1,7 @@
 package com.expense.manager.config;
 
 import com.expense.manager.repository.UserRepository;
-import com.expense.manager.service.UserService;
 import com.expense.manager.service.UserServiceImpl;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -62,7 +60,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
     public UserServiceImpl userService() {
-        return new UserServiceImpl(userRepository,passwordEncoder());
+        return new UserServiceImpl(userRepository, passwordEncoder());
     }
 
     @Override

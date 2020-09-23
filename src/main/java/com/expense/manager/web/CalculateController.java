@@ -25,7 +25,7 @@ public class CalculateController {
         LocalDate balanceFromDate = LocalDate.parse(transactionsFilter.getFromDate());
         LocalDate balanceToDate = LocalDate.parse(transactionsFilter.getToDate());
         List<Transaction> transactions = transactionService.findAllTransactionsByUsernameBetweenTwoDates(username, balanceFromDate, balanceToDate);
-        if(type.equals("balance"))
+        if (type.equals("balance"))
             return transactions.stream().mapToLong(Transaction::getAmount).sum();
         else if (type.equals("income"))
             return transactions.stream().filter(transaction -> transaction.getType().equals("income")).mapToLong(Transaction::getAmount).sum();
