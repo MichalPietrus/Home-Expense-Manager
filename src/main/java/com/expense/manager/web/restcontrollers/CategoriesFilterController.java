@@ -1,4 +1,4 @@
-package com.expense.manager.web;
+package com.expense.manager.web.restcontrollers;
 
 import com.expense.manager.Pojo.CategoryRanking;
 import com.expense.manager.Pojo.TransactionsFilter;
@@ -36,45 +36,35 @@ public class CategoriesFilterController {
         List<Transaction> transactions = transactionService.findAllTransactionsByUsernameBetweenTwoDates(username, fromDate, toDate);
         List<CategoryRanking> categoriesRanking = new ArrayList<>();
 
-
         // Calculating which three categories were the most profitable.
-
 
         if (type.equals("income")) {
             Map<String, Long> categoriesRankingIncomeMapSorted = new LinkedHashMap<>();
             long totalIncome = transactions.stream()
                     .filter(transaction -> transaction.getType().equals("income")).mapToLong(Transaction::getAmount).sum();
-
             Map<String, Long> categoriesRankingIncomeMap = transactions.stream()
                     .filter(transaction -> transaction.getType().equals("income"))
                     .collect(Collectors.toMap(Transaction::getCategory, Transaction::getAmount, Long::sum));
-
             categoriesRankingIncomeMap.entrySet()
                     .stream()
                     .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                     .forEachOrdered(x -> categoriesRankingIncomeMapSorted.put(x.getKey(), x.getValue()));
-
             transactionService.getThreeCategoriesWithBiggestOrLowestValue(categoriesRankingIncomeMapSorted, categoriesRanking, totalIncome, "income");
         }
 
-
         // Calculating which three categories were the least profitable.
-
 
         else {
             Map<String, Long> categoriesRankingOutcomeMapSorted = new LinkedHashMap<>();
             long totalOutcome = transactions.stream()
                     .filter(transaction -> transaction.getType().equals("outcome")).mapToLong(Transaction::getAmount).sum();
-
             Map<String, Long> categoriesRankingOutcomeMap = transactions.stream()
                     .filter(transaction -> transaction.getType().equals("outcome"))
                     .collect(Collectors.toMap(Transaction::getCategory, Transaction::getAmount, Long::sum));
-
             categoriesRankingOutcomeMap.entrySet()
                     .stream()
                     .sorted(Map.Entry.comparingByValue())
                     .forEachOrdered(x -> categoriesRankingOutcomeMapSorted.put(x.getKey(), x.getValue()));
-
             transactionService.getThreeCategoriesWithBiggestOrLowestValue(categoriesRankingOutcomeMapSorted, categoriesRanking, totalOutcome, "outcome");
         }
 

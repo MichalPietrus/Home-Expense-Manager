@@ -20,6 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc(addFilters = false)
 public class DashboardControllerTest {
 
+    /*
     @Autowired
     private MockMvc mockMvc;
 
@@ -49,5 +50,7 @@ public class DashboardControllerTest {
         mockMvc.perform(get("/transaction"))
                 .andExpect(status().isOk());
     }
+
+     */
 
 }

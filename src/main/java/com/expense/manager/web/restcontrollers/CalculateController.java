@@ -1,4 +1,4 @@
-package com.expense.manager.web;
+package com.expense.manager.web.restcontrollers;
 
 import com.expense.manager.Pojo.TransactionsFilter;
 import com.expense.manager.model.Transaction;
