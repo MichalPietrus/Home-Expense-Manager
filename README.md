@@ -16,6 +16,6 @@ Link to the site/project:
 
 http://electronicexpensemanager-env.eba-j2xi2hsp.eu-west-2.elasticbeanstalk.com/login
 
-User with some data added :
-login : admin
-password : admin
+## User with some data added
+- login : admin
+- password : admin
