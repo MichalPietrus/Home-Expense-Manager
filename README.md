@@ -14,7 +14,7 @@ Things I would have done differently:
 
 Link to the site/project:
 
-http://studentrecord-env.eba-rsg8u6gy.eu-west-2.elasticbeanstalk.com/login
+http://electronicexpensemanager-env.eba-j2xi2hsp.eu-west-2.elasticbeanstalk.com/login
 
 User with some data added
 - login : admin
