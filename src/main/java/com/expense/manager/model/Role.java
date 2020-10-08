@@ -1,6 +1,5 @@
 package com.expense.manager.model;
 
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

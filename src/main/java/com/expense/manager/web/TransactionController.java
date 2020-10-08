@@ -38,7 +38,9 @@ public class TransactionController {
     public String showTransactionForm(Model model,
                                       @PathVariable String type, Principal principal) {
         User user = userService.findByUsername(principal.getName());
-        List<Category> categories = user.getCategories().stream().filter(category -> category.getType().equals(type)).collect(toList());
+        List<Category> categories = user.getCategories().stream()
+                .filter(category -> category.getType().equals(type))
+                .collect(toList());
         model.addAttribute("categories", categories);
         model.addAttribute("type", type);
         model.addAttribute("transaction", new Transaction());
@@ -49,12 +51,14 @@ public class TransactionController {
     public String saveTransaction(@ModelAttribute("transaction") @Valid Transaction transaction,
                                   @PathVariable String type, Principal principal) throws Exception {
         User user = userService.findByUsername(principal.getName());
+
         if (type.equals("outcome") && transaction.getAmount() > 0)
             transaction.setAmount(-transaction.getAmount());
         else if (type.equals("outcome") && transaction.getAmount() < 0)
             transaction.setAmount(transaction.getAmount());
         else if (!type.equals("income"))
             throw new Exception("Wrong type of transaction");
+
         transaction.setType(type);
         user.addTransaction(transaction);
         userService.save(user);
@@ -64,12 +68,16 @@ public class TransactionController {
     @GetMapping("/history/{pageId}")
     public String showTransactionsHistory(Model model, @PathVariable Integer pageId, Principal principal) {
         Pageable pageable = PageRequest.of(pageId, 5, Sort.by(Sort.Order.asc("date")));
-        Page<Transaction> transactions = transactionService.findAllByUserUsernameOrderByDateDescPageable(principal.getName(), pageable);
+        Page<Transaction> transactions = transactionService
+                .findAllByUserUsernameOrderByDateDescPageable(principal.getName(), pageable);
+
         LocalDate localDate = LocalDate.now().plusDays(1);
         LocalDate localDateMonthBefore = LocalDate.now().minusMonths(1);
+
         long lastMonthBalance = transactionService.findAllByUserUsernameOrderByDateDesc(principal.getName()).stream()
                 .filter(transaction -> transaction.getDate().isAfter(localDateMonthBefore) && transaction.getDate().isBefore(localDate))
                 .mapToLong(Transaction::getAmount).sum();
+
         model.addAttribute("lastMonthBalance", lastMonthBalance);
         model.addAttribute("transactions", transactions);
         return "transactions-history";
@@ -83,6 +91,7 @@ public class TransactionController {
                 .filter(category -> category.getType().equals(transaction.getType()))
                 .filter(category -> !category.getName().equals(transaction.getCategory()))
                 .map(Category::getName).collect(Collectors.toList());
+
         model.addAttribute("transaction", transaction);
         model.addAttribute("categories", categories);
         return "edit-transaction";
@@ -96,6 +105,7 @@ public class TransactionController {
             transactionValue = transactionValue - transactionValue * 2;
         if (transactionValue > 0 && transaction.getType().equals("outcome"))
             transactionValue = transactionValue - transactionValue * 2;
+
         transaction.setAmount(transactionValue);
         transaction.setId(transactionId);
         transaction.setUser(userService.findByUsername(principal.getName()));
@@ -108,6 +118,4 @@ public class TransactionController {
         transactionService.deleteById(transactionId);
         return "redirect:/transaction/history/0";
     }
-
-
 }

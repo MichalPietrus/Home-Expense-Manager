@@ -20,17 +20,29 @@ public class CalculateController {
     }
 
     @PostMapping(value = "/sum/{type}")
-    public Long calculateBalanceBasedOnDate(@RequestBody TransactionsFilter transactionsFilter, Principal principal, @PathVariable String type) {
+    public Long calculateBalanceBasedOnDate(@RequestBody TransactionsFilter transactionsFilter,
+                                            Principal principal, @PathVariable String type) {
+
         String username = principal.getName();
         LocalDate balanceFromDate = LocalDate.parse(transactionsFilter.getFromDate());
         LocalDate balanceToDate = LocalDate.parse(transactionsFilter.getToDate());
-        List<Transaction> transactions = transactionService.findAllTransactionsByUsernameBetweenTwoDates(username, balanceFromDate, balanceToDate);
+        List<Transaction> transactions = transactionService
+                .findAllTransactionsByUsernameBetweenTwoDates(username, balanceFromDate, balanceToDate);
+
         if (type.equals("balance"))
-            return transactions.stream().mapToLong(Transaction::getAmount).sum();
+            return transactions.stream()
+                    .mapToLong(Transaction::getAmount)
+                    .sum();
         else if (type.equals("income"))
-            return transactions.stream().filter(transaction -> transaction.getType().equals("income")).mapToLong(Transaction::getAmount).sum();
+            return transactions.stream()
+                    .filter(transaction -> transaction.getType().equals("income"))
+                    .mapToLong(Transaction::getAmount)
+                    .sum();
         else
-            return transactions.stream().filter(transaction -> transaction.getType().equals("outcome")).mapToLong(Transaction::getAmount).sum();
+            return transactions.stream()
+                    .filter(transaction -> transaction.getType().equals("outcome"))
+                    .mapToLong(Transaction::getAmount)
+                    .sum();
     }
 
 }

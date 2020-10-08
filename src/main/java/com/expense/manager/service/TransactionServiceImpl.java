@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
@@ -27,7 +29,9 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<Transaction> findAllTransactionsByUsernameBetweenTwoDates(String username, LocalDate fromDate, LocalDate toDate) {
+    public List<Transaction> findAllTransactionsByUsernameBetweenTwoDates(
+            String username,
+            LocalDate fromDate, LocalDate toDate) {
         return transactionRepository.findAllByUserUsernameAndDateBetween(username, fromDate, toDate);
     }
 
@@ -52,19 +56,29 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Page<Transaction> findAllByUserUsernameAndDateBetweenPageable(String username, LocalDate fromDate, LocalDate toDate, Pageable pageable) {
-        return transactionRepository.findAllByUserUsernameAndDateBetween(username, fromDate, toDate, pageable);
+    public Page<Transaction> findAllByUserUsernameAndDateBetweenPageable(
+            String username,
+            LocalDate fromDate, LocalDate toDate,
+            Pageable pageable) {
+        return transactionRepository
+                .findAllByUserUsernameAndDateBetween(username, fromDate, toDate, pageable);
     }
 
     @Override
-    public Page<Transaction> findAllByUserUsernameAndDateBetweenAndTypeEquals(String username, LocalDate fromDate, LocalDate toDate, String type, Pageable pageable) {
-        return transactionRepository.findAllByUserUsernameAndDateBetweenAndTypeEquals(username, fromDate, toDate, type, pageable);
+    public Page<Transaction> findAllByUserUsernameAndDateBetweenAndTypeEquals(
+            String username,
+            LocalDate fromDate, LocalDate toDate,
+            String type, Pageable pageable) {
+        return transactionRepository
+                .findAllByUserUsernameAndDateBetweenAndTypeEquals(username, fromDate, toDate, type, pageable);
     }
 
     @Override
-    public void getThreeCategoriesWithBiggestOrLowestValue
-            (Map<String, Long> categoriesRankingIncomeMap,
-             List<CategoryRanking> categoriesIncomeRanking, long lastMonthIncomeOrOutcome, String type) {
+    public void findThreeCategoriesWithBiggestOrLowestValue(
+            Map<String, Long> categoriesRankingIncomeMap,
+            List<CategoryRanking> categoriesIncomeRanking,
+            long lastMonthIncomeOrOutcome, String type) {
+
         for (Map.Entry<String, Long> ranking : categoriesRankingIncomeMap.entrySet()) {
             if (categoriesIncomeRanking.size() < 3) {
                 CategoryRanking categoryRanking = new CategoryRanking();
@@ -83,4 +97,27 @@ public class TransactionServiceImpl implements TransactionService {
         }
     }
 
+    @Override
+    public void sortMapAndAddSortedElementsToSortedMap(Map<String, Long> categoriesRankingIncomeMapSorted,
+                                                       Map<String, Long> categoriesRankingIncomeMap,
+                                                       Comparator<Map.Entry<String, Long>> entryComparator) {
+        categoriesRankingIncomeMap.entrySet()
+                .stream()
+                .sorted(entryComparator)
+                .forEachOrdered(x -> categoriesRankingIncomeMapSorted.put(x.getKey(), x.getValue()));
+    }
+
+    @Override
+    public Map<String, Long> getCategoriesRankingMap(List<Transaction> transactions, String income) {
+        return transactions.stream()
+                .filter(transaction -> transaction.getType().equals(income))
+                .collect(Collectors.toMap(Transaction::getCategory, Transaction::getAmount, Long::sum));
+    }
+
+    @Override
+    public long getTotalTransaction(List<Transaction> transactions, String transactionType) {
+        return transactions.stream()
+                .filter(transaction -> transaction.getType().equals(transactionType))
+                .mapToLong(Transaction::getAmount).sum();
+    }
 }

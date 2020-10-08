@@ -78,5 +78,4 @@ public class User {
                 new Category("Salary", "income")));
         categories.forEach(category -> category.setUser(this));
     }
-
 }

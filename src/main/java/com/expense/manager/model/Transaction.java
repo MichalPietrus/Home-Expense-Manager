@@ -33,9 +33,8 @@ public class Transaction {
      * outcome
      */
     private String type;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
     private User user;
-
-
 }

@@ -20,6 +20,8 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
 
     Page<Transaction> findAllByUserUsernameAndDateBetween(String username, LocalDate fromDate, LocalDate toDate, Pageable pageable);
 
-    Page<Transaction> findAllByUserUsernameAndDateBetweenAndTypeEquals(String username, LocalDate fromDate, LocalDate toDate, String type, Pageable pageable);
-
+    Page<Transaction> findAllByUserUsernameAndDateBetweenAndTypeEquals(
+            String username,
+            LocalDate fromDate, LocalDate toDate,
+            String type, Pageable pageable);
 }

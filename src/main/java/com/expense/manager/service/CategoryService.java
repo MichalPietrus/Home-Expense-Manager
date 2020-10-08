@@ -9,5 +9,4 @@ public interface CategoryService {
     void delete(Long id);
 
     Page<Category> findAllCategoriesByUsernamePageable(String username, Pageable pageable);
-
 }

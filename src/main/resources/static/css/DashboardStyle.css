@@ -3,6 +3,7 @@
     border: 2px solid gray;
     padding: 20px;
 }
+
 .progress-bar-dimensions {
     width: 270px;
     height: 25px;
@@ -10,11 +11,13 @@
     position: relative;
     right: 20px
 }
+
 .transaction-category-name-progress-bar {
     float: left;
     position: relative;
     left: 20px
 }
+
 .transaction-category-amount-progress-bar {
     float: right;
     position: relative;

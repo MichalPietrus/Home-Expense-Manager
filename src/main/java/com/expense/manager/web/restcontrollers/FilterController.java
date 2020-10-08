@@ -23,10 +23,12 @@ public class FilterController {
     }
 
     @PostMapping("/by-date/{pageId}")
-    public Page<Transaction> filterTransactionsTableByDate(@RequestBody TransactionsFilter transactionsFilter, Principal principal,
+    public Page<Transaction> filterTransactionsTableByDate(@RequestBody TransactionsFilter transactionsFilter,
+                                                           Principal principal,
                                                            @PathVariable Integer pageId) {
 
-        //Filters table by date and by what type of transactions it should print, if no date is selected then it prints all transactions from the last month
+        //Filters table by date and by what type of transactions it should print,
+        //if no date is selected then it prints all transactions from the last month
 
         String username = principal.getName();
         Page<Transaction> transactions;
@@ -37,7 +39,7 @@ public class FilterController {
         LocalDate balanceToDate;
         Pageable pageable = PageRequest.of(pageId, 5, Sort.by(Sort.Order.desc("date")));
 
-        if(!fromDate.equals("NoDate") && !toDate.equals("NoDate")) {
+        if (!fromDate.equals("NoDate") && !toDate.equals("NoDate")) {
             balanceFromDate = LocalDate.parse(fromDate);
             balanceToDate = LocalDate.parse(toDate);
         } else {
@@ -46,13 +48,17 @@ public class FilterController {
         }
 
         if (type.equals("Only Income"))
-            transactions = transactionService
-                    .findAllByUserUsernameAndDateBetweenAndTypeEquals(username, balanceFromDate, balanceToDate, "income", pageable);
+            transactions = transactionService.findAllByUserUsernameAndDateBetweenAndTypeEquals(
+                    username, balanceFromDate, balanceToDate, "income", pageable);
+
         else if (type.equals("Only Outcome"))
             transactions = transactionService
-                    .findAllByUserUsernameAndDateBetweenAndTypeEquals(username, balanceFromDate, balanceToDate, "outcome", pageable);
+                    .findAllByUserUsernameAndDateBetweenAndTypeEquals(
+                            username, balanceFromDate, balanceToDate, "outcome", pageable);
+
         else
-            transactions = transactionService.findAllByUserUsernameAndDateBetweenPageable(username, balanceFromDate, balanceToDate, pageable);
+            transactions = transactionService.findAllByUserUsernameAndDateBetweenPageable(
+                    username, balanceFromDate, balanceToDate, pageable);
 
         return transactions;
     }

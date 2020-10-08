@@ -17,5 +17,4 @@ public class CategoryRanking {
         DecimalFormat decimalFormat = new DecimalFormat("###.#");
         return decimalFormat.format(this.percentageContribution);
     }
-
 }

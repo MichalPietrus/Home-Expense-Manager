@@ -30,7 +30,7 @@ public class CategoryController {
     }
 
     @GetMapping("/list/{pageId}")
-    public String showCategories(Model model, Principal principal, @PathVariable Integer pageId) {
+    public String showCategoriesPage(Model model, Principal principal, @PathVariable Integer pageId) {
         Pageable pageable = PageRequest.of(pageId, 5, Sort.by(Sort.Order.asc("name")));
         Page<Category> categories = categoryService.findAllCategoriesByUsernamePageable(principal.getName(), pageable);
         model.addAttribute("categories", categories);

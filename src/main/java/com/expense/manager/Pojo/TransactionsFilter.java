@@ -11,5 +11,4 @@ public class TransactionsFilter {
      * type of transaction
      */
     private String type;
-
 }

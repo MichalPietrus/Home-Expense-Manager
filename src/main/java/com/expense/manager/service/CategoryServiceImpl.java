@@ -24,5 +24,4 @@ public class CategoryServiceImpl implements CategoryService {
     public Page<Category> findAllCategoriesByUsernamePageable(String username, Pageable pageable) {
         return categoryRepository.findAllByUserUsername(username, pageable);
     }
-
 }
