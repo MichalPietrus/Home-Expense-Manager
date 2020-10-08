@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 #Home Expense Manager
+=======
+# Home Expense Manager
 
 Languages and frameworks used in the project:
 
@@ -16,7 +19,13 @@ Link to the site/project:
 
 http://electronicexpensemanager-env.eba-j2xi2hsp.eu-west-2.elasticbeanstalk.com/login
 
+<<<<<<< HEAD
 For best experience log into this account as it has some sample data
 
 - login : admin
 - password : admin
+=======
+User with some data added
+- login : admin
+- password : admin
+
