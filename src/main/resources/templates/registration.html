@@ -8,23 +8,22 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+    <link rel="stylesheet" th:href="@{/css/LoginPageStyle.css}">
     <title>Registration</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/">Expense manager</a>
-</nav>
 
-<br>
-<br>
+<div id="page" class="container-12">
 
-<div class="invalid-feedback">
-    Please choose a username.
-</div>
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
+    <nav id="navbar" role="navigation" class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">Expense manager</a>
+    </nav>
+
+    <div class="invalid-feedback">
+        Please choose a username.
+    </div>
+    <div class="row no-gutters">
+        <main role="main" class="col-sm-9 col-md-6 col-lg-4">
             <div th:if="${param.success}">
                 <div class="alert alert-info">Registration was successful</div>
             </div>
@@ -59,11 +58,17 @@
                        th:text="${error}">Validation error</p>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-success">Create account</button>
-                    <span>Are you already registered ? <a href="/" th:href="@{/login}">Log in here</a></span>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <button type="submit" class="form-control btn btn-secondary">Create account</button>
+                        </div>
+                    </div>
+                    <div id="submit-span" class="form-group">
+                        <span>Are you already registered ? <a href="/" th:href="@{/login}">Log in here</a></span>
+                    </div>
                 </div>
             </form>
-        </div>
+        </main>
     </div>
 </div>
 

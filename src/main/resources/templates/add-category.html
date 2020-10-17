@@ -8,33 +8,50 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/CenterFormStyles.css}">
     <title>Expense manager</title>
 </head>
 <body>
-<nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-light"></nav>
 
-<br><br>
+<div class="container-12">
 
-<div class="container form-inline" style="position: absolute; top: 25%; left: 30%">
-    <h2 style="position: absolute; bottom: 110%; left: 19%">Add Category</h2>
-    <form th:action="@{/category/add}" method="post">
-        <div th:object="${category}">
-            <label for="name"></label>Category:
-            <input type="text" maxlength="20" id="name" name="name" class="form-control"
-                   style="width: 400px; float: right; position: relative; left: 30px" placeholder="category" required/>
-            <br><br>
-            <label for="type"></label>Type:
-            <select id="type" name="type" class="form-control"
-                    style="width: 400px; float: right; position: relative; left: 30px">
-                <option>income</option>
-                <option>outcome</option>
-            </select>
-            <br><br>
-            <input type="submit" class="btn btn-dark"
-                   style="width: 150px; position: relative; top: 10px; left: 225px" value="Create"/>
-        </div>
-    </form>
-</div>
+    <nav id="navbar" role="navigation" class="navbar navbar-expand-sm navbar-dark bg-dark"></nav>
+
+    <div class="row no-gutters justify-content-center">
+
+        <main role="main" class="col-10 col-sm-9 col-md-6 col-lg-4 col-xl-3 center-main-content">
+
+            <h2 id="header">Add Category</h2>
+
+            <form th:action="@{/category/add}" method="post">
+                <div th:object="${category}">
+
+                    <div class="form-group">
+                        <label for="name">Category:</label>
+                        <input type="text" maxlength="20" id="name" name="name" class="form-control"
+                               placeholder="category"
+                               required/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="type">Type:</label>
+                        <select id="type" name="type" class="form-control">
+                            <option>Income</option>
+                            <option>Outcome</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-6 offset-sm-3">
+                        <input type="submit" class="form-control btn btn-dark" value="Create"/>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </main>
+    </div><!-- End of row -->
+</div><!-- End of container -->
 
 
 <script th:src="@{/js/navbar.js}"></script>

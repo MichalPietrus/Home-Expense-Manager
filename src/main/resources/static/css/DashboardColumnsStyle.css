@@ -1,0 +1,69 @@
+#leftColumn {
+    margin-top: 30px;
+    margin-right: 50px;
+    border-radius: 25px;
+    border: 2px solid gray;
+    padding: 20px;
+}
+#rightColumn {
+    margin-top: 30px;
+    border-radius: 25px;
+    border: 2px solid gray;
+    padding: 20px;
+}
+.columnToDateDiv {
+    margin-top: 10px;
+}
+.columnFromDateLabel {
+    margin-top: 2px;
+    float: left;
+    text-align: left;
+    padding-right: 10px;
+    width: 50px;
+}
+.columnToDateLabel {
+    float: left;
+    text-align: left;
+    padding-right: 10px;
+    width: 50px;
+}
+.progress-bar-dimensions {
+    width: 100%;
+    height: 25px;
+    margin-left: 35px;
+    float: right;
+}
+.transaction-category-name-progress-bar {
+    float: left;
+    text-align: left;
+    margin-left: 20px;
+}
+
+.transaction-category-amount-progress-bar {
+    text-align: right;
+    float: right;
+    width: 100%;
+}
+@media only screen and (max-width: 475px) {
+    #incomesColumn > div > .transaction-category-name-progress-bar {
+        text-align: left;
+        float: left;
+        width: 100%;
+    }
+
+    #incomesColumn > div > .transaction-category-amount-progress-bar {
+        margin-bottom: 5px;
+        padding-bottom: 10px;
+    }
+
+    #incomesColumn > div > div > div {
+        float: left;
+        width: 100%;
+    }
+}
+@media only screen and (max-width: 767px) {
+    #leftColumn, #rightColumn {
+        width: 80% !important;
+        margin: 20px auto 0;
+    }
+}

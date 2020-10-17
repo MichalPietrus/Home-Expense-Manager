@@ -4,46 +4,65 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/AddTransactionStyle.css">
+    <link rel="stylesheet" th:href="@{/css/CenterFormStyles.css}">
     <title>Expense manager</title>
 </head>
 <body>
-<nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-light"></nav>
 
-<br><br>
+<div id="page" class="container-12">
 
+    <nav id="navbar" role="navigation" class="navbar navbar-expand-sm navbar-dark bg-dark"></nav>
 
-<div class="container form-inline" style="position: absolute; top: 25%; left: 30%">
-    <h2 style="position: absolute; bottom: 110%; left: 17%">Add Transaction</h2>
-    <form th:action="@{/transaction/add/{type}(type=${type})}" method="post">
-        <div th:object="${transaction}">
-            <label for="category"></label>Category:
-            <select id="category" name="category" class="form-control"
-                    style="width: 400px; float: right; position: relative; left: 50px">
-                <option
-                        th:each="category : ${categories}"
-                        th:value="${category.name}"
-                        th:text="${category.name}"></option>
-            </select>
-            <br><br>
-            <label for="amount"></label>Amount:
-            <input type="text" id="amount" name="amount" class="form-control"
-                   style="width: 400px; float: right; position: relative; left: 50px" placeholder="amount" required/>
-            <br><br>
-            <label for="date"></label>Date:
-            <input type="date" id="date" name="date" class="form-control"
-                   style="width: 400px; float: right; position: relative; left: 50px" placeholder="date" required/>
-            <br><br>
-            <label for="comment"></label>Comment:
-            <input type="text" maxlength="200" id="comment" name="comment" class="form-control"
-                   style="width: 400px; float: right; position: relative; left: 50px" placeholder="comment"/>
-            <br><br>
-            <input type="submit" class="btn btn-dark"
-                   style="width: 150px; position: relative; top: 10px; left: 225px" value="Create"/>
-        </div>
-    </form>
+    <div class="row no-gutters justify-content-center">
+
+        <main role="main" class="col-10 col-sm-9 col-md-6 col-lg-4 center-main-content">
+
+            <h2 id="header" th:text="${'Add ' + type}"></h2>
+
+            <form th:action="@{/transaction/add/{type}(type=${type})}" method="post">
+                <div th:object="${transaction}">
+
+                    <div class="form-group">
+                        <label for="category">Category:</label>
+                        <select id="category" name="category" class="form-control">
+                            <option
+                                    th:each="category : ${categories}"
+                                    th:value="${category.name}"
+                                    th:text="${category.name}"></option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="amount">Amount:</label>
+                        <input type="text" id="amount" name="amount" class="form-control" placeholder="amount"
+                               required/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="date">Date:</label>
+                        <input type="date" id="date" name="date" class="form-control" placeholder="date" required/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="comment">Comment:</label>
+                        <input type="text" maxlength="200" id="comment" name="comment" class="form-control"
+                               placeholder="comment"/>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-6 offset-sm-3">
+                            <input type="submit" class="form-control btn btn-dark" value="Create"/>
+                        </div>
+                    </div>
+                </div><!-- End of object transaction -->
+            </form>
+        </main>
+    </div><!--End of row -->
 </div>
 
 <script th:src="@{/js/navbar.js}"></script>
@@ -52,9 +71,8 @@
         printNavbar();
     }
 </script>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
