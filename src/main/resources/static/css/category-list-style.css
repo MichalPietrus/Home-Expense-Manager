@@ -3,7 +3,14 @@
 }
 #Categories-Table {
     margin-top: 50px;
+    margin-left: 10px;
 }
 #header {
     margin-bottom: 20px
+}
+
+@media only screen and (max-width: 576px){
+    .table-responsive-sm {
+        max-width: 350px;
+    }
 }

@@ -21,12 +21,12 @@
 
     <main role="main">
         <div class="row center no-gutters">
-            <div id="Categories-Table" class="col-12" th:switch="${categories.getContent()}">
+            <div id="Categories-Table" class="col-11" th:switch="${categories.getContent()}">
                 <h2 th:case="null">No categories yet!</h2>
                 <div th:case="*">
                     <h2 id="header">Categories</h2>
 
-                    <table class="table table-bordered table-striped">
+                    <table class="table table-responsive-sm table-bordered table-striped">
                         <thead>
                         <tr>
                             <th class="Center">Category</th>
