@@ -13,7 +13,7 @@ function saveValue(e) {
 //get the saved value function - return the value of "v" from localStorage.
 function getSavedValue(v) {
     if (!sessionStorage.getItem(v)) {
-        return "";// You can change this to your defualt value.
+        return "";// You can change this to your default value.
     }
     return sessionStorage.getItem(v);
 }
