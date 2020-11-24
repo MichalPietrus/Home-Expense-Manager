@@ -12,6 +12,12 @@ Languages and frameworks used in the project:
 Things I would have done differently:
 - The appearance of the page.
 
+Things i learned while doing this project:
+- Consolidated my skill in Java and Spring
+- Consolidated my skills in HTML
+- Learned basics of CSS and bootstrap / bootstrap grid
+- Started using javascript but learned only very basic things
+
 Link to the site/project:
 
 https://home-expense-manager.herokuapp.com/
