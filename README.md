@@ -18,6 +18,13 @@ Things i learned while doing this project:
 - Learned basics of CSS and bootstrap / bootstrap grid
 - Started using javascript but learned only very basic things
 
+About project
+
+Expense Manager is a web application in which you can plan your expenses.
+You can add incomes, outcomes and also create new categories to which you can
+allocate types of expenses. While doing this project i mostly focused on understanding the grid system,
+bootstrap and css also learned a lot about spring data and learned a little about javascript
+
 Link to the site/project:
 
 https://home-expense-manager.herokuapp.com/
